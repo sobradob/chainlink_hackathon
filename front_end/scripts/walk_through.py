@@ -8,28 +8,35 @@ user_address = "???" # what is the chainlink kovan thing? who is user here?
 question_id = "???"
 
 
-lsLMSR = Contract.from_abi('lsLMSR', address= factory_address, abi=json.load(open('interfaces/lsLMSR.json','r')))
+# deployed_lsLMSR = Contract.from_abi('lsLMSR', address= factory_address, abi=json.load(open('interfaces/lsLMSR.json','r')))
 
 def get_account():
     return accounts.load('chainlink_kovan')
 
 def get_contract():
-    pass
+	factory_contract = lsLMSR.deploy({'from': accounts[0]})
+    return(factory_contract)
 
-def example_setup_market(question_id, oracle_address):
+def get_price(lsmr_contract,outcome, amount):
+	current_price = lsmr_contract.price.call(outcome, amount {'from': accounts[0]})
+	return(current_price)
+	### probably to do: set up function to make it human legible and nice
+
+def setup_market(lsmr_contract, question_id, oracle_address, subsidy, overround):
 	print("Ser ... Setting up a market ")
-	market_contract = lsLMSR.setup.call(
+	print("Setting up market {} with the subsidy of {} and overround parameters of {} bps".format(question_id, subsidy,overround))
+	market_contract = lsmr_contract.setup.call(
 		oracle_address,
 		question_id,
 		3, # number of outcomes 
-		1000, # subsidy
-		300 #overround
+		subsidy, 
+		overround #overround
 		, {'from': user_address})
 	return(market_contract)
 
-def buy_outcome( outcome_id, amount):
+def buy_outcome(lsmr_contract,outcome_id, amount):
 	print("Buying outcome ser")
-	lsLMSR.buy.call(outcome_id,amount,{'from': user_address})
+	lsmr_contract.buy.call(outcome_id,amount,{'from': user_address})
 
 
 def display_parameters(contract):
@@ -40,8 +47,9 @@ def display_parameters(contract):
 
 def main():
     user = get_account()
-    contract = get_contract()
-    display_parameters(contract)
-    mkt = example_setup_market()
-    
+    lsmr_contract = get_contract()
+    display_parameters(lsmr_contract)
+    ## start market set up 
+    mkt = setup_market(lsmr_contract, 1, ??oracle_address, 100000, 300)
+
 
