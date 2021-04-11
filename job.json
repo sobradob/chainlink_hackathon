@@ -1,0 +1,10 @@
+{
+	"initiators": [
+		{ "type": "runlog" }
+	],
+	"tasks": [
+		{ "type": "localadaptor" },
+    { "type": "ethuint256" },
+    { "type": "ethtx" }
+	]
+}
