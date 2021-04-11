@@ -1,3 +1,6 @@
 [submodule "lslmsr"]
 	path = lslmsr
 	url = https://github.com/sobradob/lslmsr.git
+[submodule "external_adapter_match"]
+	path = external_adapter_match
+	url = https://github.com/dlforde/external_adapter_match.git
