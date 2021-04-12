@@ -57,7 +57,7 @@ def create_market(match, funding):
     print('0x' + match_id.zfill(64), match_id)
     contract = LsLMSR.deploy(CT_address, Dai_address, {'from': accounts[0]})
     dai.approve(contract, funding*1e18, {'from': accounts[0]})
-    contract.setup('0x1' + match_id.zfill(63), match_id, 3, funding*1e18, 500, {'from': accounts[0]})
+    contract.setup('0x2' + match_id.zfill(63), match_id, 3, funding*1e18, 500, {'from': accounts[0]})
     return contract
 
 def main():
@@ -74,23 +74,22 @@ def main():
         print('[%s]: %s vs %s' % (i, teams[match.hometeam], teams[match.awayteam]))
         i+=1
     print('Please select a match:')
-    desired_match = int(input())
+    desired_match = input()
 
-    if desired_match < 0 or desired_match > 9:
+
+    if desired_match == 'TEST':
+        print('You have chosen Liverpool vs Aston Villa')
+        matchx = Match('match week 31', 10, 1) #Liveprool vs aston villa
+        market = create_market(matchx, 100)
+    elif int(desired_match) < 0 or int(desired_match) > 9:
         raise "Invalid"
 
-    print('')
-    print('You have chosen: %s vs %s' % (teams[matches[desired_match].hometeam], teams[matches[desired_match].awayteam]))
     print('Your current balance is: $%.2f' % float(balance/1e18))
-
     print('How much will you fund the market with?')
     seed_funding = int(input())
 
     if seed_funding > balance:
         raise "You don't have enough money"
 
-    # market = create_market(matches[desired_match], seed_funding)
-    # print('Market deployed at %s' % market)
-
-    matchx = Match('match week 31', 10, 1) #Liveprool vs aston villa
-    market = create_market(matchx, seed_funding)
+    market = create_market(matches[desired_match], seed_funding)
+    print('Market deployed at %s' % market)

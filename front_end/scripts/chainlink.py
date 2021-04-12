@@ -1,7 +1,8 @@
 from brownie import accounts, network, Contract, LsLMSR
 import json
 
-chainlink_address = '0xe576aD1383CB3eA15132773Da6061602fD8649Cb'
+# put the address of LSLMSR here
+chainlink_address = '0xD95e3d8F095E52be7f8eB35F44aE9595834004AF'
 link = Contract.from_abi('link', address= chainlink_address, abi=json.load(open('build/contracts/LsLMSR.json','r'))['abi'])
 
 def get_account():

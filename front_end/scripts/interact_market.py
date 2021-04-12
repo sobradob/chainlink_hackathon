@@ -1,7 +1,8 @@
 from brownie import accounts, Contract, LsLMSR
 import json
 
-market_address = '0xe576aD1383CB3eA15132773Da6061602fD8649Cb'
+# put the address of LSLMSR here
+market_address = '0xD95e3d8F095E52be7f8eB35F44aE9595834004AF'
 market = Contract.from_abi('market', address= market_address, abi=json.load(open('build/contracts/LsLMSR.json','r'))['abi'])
 
 # old market = 0xCeC4B896955F5EFC9E981974b030c7D862DD7dEB
