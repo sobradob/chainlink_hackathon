@@ -33,6 +33,15 @@ For the market to function, users need to be able to bet on certain outcomes.
 
 In order to create competitive betting prices, the market must be sufficiently liquid.
 
+## HERE COMES CHAINLINK
+
+A key feature of any prediction market is to establish the outcome of the market. Solving this oracle problem is essential for the functionality of prediction markets.
+
+Getting data that is stored off-chain from an API and bringing it on chain is one of the key features of chainlink. Not only do we need to get the data on-chain, we need to know that this information is valid and secure and chainlink is unrivalled in its security.
+
+Utilising external adaptors, we are able to create a request to a chainlink node. Our external adapter (within the external_adapter_match submodule) aggregates information from multiple football APIs to minimise the impact of any malicious data providers.
+
+In this way, we have a trust-minimised approach to resolving markets.
 
 ## What makes our solution different
 
@@ -51,19 +60,20 @@ We have chosen to solve this through:
 
 In practice our implemention works the following way:
 
-- An Initial Liquidity Provider (GAMEMASTER) creates a market on JUST WIN for a bet with at least two outcomes, setting the expiry date only. The liquidity they provide to the market can only be recovered after the bet has been settled.
+- An Initial Liquidity Provider on JUST WIN for a bet with at least two outcomes. The liquidity they provide to the market can only be recovered after the bet has been settled.
 
 - Users (BETTORS) make bets on multiple positions for the duration of the market. Essentially, bettors are purchasing futures contracts that expire at 1 if the outcome they bet on occurs, and 0 if it does not. The prices of these are set by the ODDS ALLOCATION ALGORITHM (OAA). The OAA is designed such that the GAMEMASTER will more often than not profit from the pool, although losses are still possible. The markets where a single outcome is guaranteed or extremely likely (Will I roll 1-6 with a dice?) are the most common types of market that make losses.
-
 
 - Once the bet has expired, the Chainlink oracles  will report the outcome of the bet. The winners can claim their winnings and the GAMEMASTER recovers the initial liquidity pool and the additional profits. 
 
 
 ### Market Making & the Odds Allocation Algorithm
 
-Orderbook based DEXes have not been widely adopted yet due to the high throughput they would require. In practical terms, orderbook based DEXes are highly inefficient in terms of gas. For this reason we'll use a fixed product automated market maker such as [Uniswap](https://app.uniswap.org/#/swap) to offer prices. 
+Orderbook based DEXes have not been widely adopted yet due to the high throughput they would require. In practical terms, orderbook based DEXes are highly inefficient in terms of gas. For this reason we'll use an automated market maker. AMMs such as [Uniswap](https://app.uniswap.org/#/swap) are already widespread within the decentralised space however there are some barriers to using a fixed product market marker to resolve these prediction markets.
 
-There are many different algorithms available but we have chosen to use a modified LMSR ([logarithmic market scoring rule](https://www.cs.cmu.edu/~./sandholm/liquidity-sensitive%20automated%20market%20maker.teac.pdf)) to generate a fair price for any market.
+With a FPMM, if one of the outcomes tends to 0, then the value of the liquidity pool also tends to 0. In a prediction market, we would expect outcome tokens on the losing positions to become worthless! Therefore this can result in catastrophic loss to liquidity providers.
+
+There are many different alternate algorithms available but we have chosen to use a modified LMSR ([logarithmic market scoring rule](https://www.cs.cmu.edu/~./sandholm/liquidity-sensitive%20automated%20market%20maker.teac.pdf)) to generate a fair price for any market.
 
 The key advantage of this algorithm compared to that of Uniswap or Omen is that: 
 - The losses to the GAMEMASTER are bounded (i.e. 80% drawdowns are simply not possible). 
