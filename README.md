@@ -73,7 +73,7 @@ Orderbook based DEXes have not been widely adopted yet due to the high throughpu
 
 With a FPMM, if one of the outcomes tends to 0, then the value of the liquidity pool also tends to 0. In a prediction market, we would expect outcome tokens on the losing positions to become worthless! Therefore this can result in catastrophic loss to liquidity providers.
 
-There are many different alternate algorithms available but we have chosen to use a modified LMSR ([logarithmic market scoring rule](https://www.cs.cmu.edu/~./sandholm/liquidity-sensitive%20automated%20market%20maker.teac.pdf)) to generate a fair price for any market.
+There are many different alternate algorithms available but we have chosen to use a modified LMSR ([logarithmic market scoring rule](https://www.cs.cmu.edu/~./sandholm/liquidity-sensitive%20automated%20market%20maker.teac.pdf)) to generate a fair price for any market. For more information on the JUST WIN LS-LSMR implementation check [here](docs.just.win).
 
 The key advantage of this algorithm compared to that of Uniswap or Omen is that: 
 - The losses to the GAMEMASTER are bounded (i.e. 80% drawdowns are simply not possible). 
