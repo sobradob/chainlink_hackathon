@@ -4,7 +4,7 @@ from brownie import *
 # SUCCESS: A new account '0x55CeB36c28FbF1DAdf12B5d5006e2Bec5647FA4a' has been generated with the id 'chainlink_kovan'
 
 factory_address = "???" # THIS IS MISSING MY BROTHER
-user_address = "???" # what is the chainlink kovan thing? who is user here? 
+user_address = "???" # what is the chainlink kovan thing? who is user here?
 question_id = "???"
 
 
@@ -14,8 +14,8 @@ def get_account():
     return accounts.load('chainlink_kovan')
 
 def get_contract():
-	factory_contract = lsLMSR.deploy({'from': accounts[0]})
-    return(factory_contract)
+	# factory_contract = lsLMSR.deploy({'from': accounts[0]})
+    return factory_contract
 
 def get_price(lsmr_contract,outcome, amount):
 	current_price = lsmr_contract.price.call(outcome, amount {'from': accounts[0]})
@@ -28,8 +28,8 @@ def setup_market(lsmr_contract, question_id, oracle_address, subsidy, overround)
 	market_contract = lsmr_contract.setup.call(
 		oracle_address,
 		question_id,
-		3, # number of outcomes 
-		subsidy, 
+		3, # number of outcomes
+		subsidy,
 		overround #overround
 		, {'from': user_address})
 	return(market_contract)
@@ -49,7 +49,5 @@ def main():
     user = get_account()
     lsmr_contract = get_contract()
     display_parameters(lsmr_contract)
-    ## start market set up 
+    ## start market set up
     mkt = setup_market(lsmr_contract, 1, ??oracle_address, 100000, 300)
-
-

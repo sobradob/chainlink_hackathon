@@ -1,2 +1,8 @@
 networks:
   default: kovan
+
+compiler:
+  solc:
+    version: "0.6.2"
+
+dotenv: .env
