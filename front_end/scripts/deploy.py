@@ -57,7 +57,7 @@ def create_market(match, funding):
     print('0x' + match_id.zfill(64), match_id)
     contract = LsLMSR.deploy(CT_address, Dai_address, {'from': accounts[0]})
     dai.approve(contract, funding*1e18, {'from': accounts[0]})
-    contract.setup('0x2' + match_id.zfill(63), match_id, 3, funding*1e18, 500, {'from': accounts[0]})
+    contract.setup('0x' + match_id.zfill(64), match_id, 3, funding*1e18, 500, {'from': accounts[0]})
     return contract
 
 def main():
